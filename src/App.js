@@ -1,7 +1,8 @@
 import React from 'react'
-// import * as BooksAPI from './BooksAPI'
 import { Route, Link} from 'react-router-dom';
 import './App.css'
+import * as BOOKS from './BooksAPI';
+import Book from './componant/book';
 
 /*class BooksApp extends React.Component {
   state = {
@@ -205,7 +206,23 @@ import './App.css'
 }
 */
 class BooksApp extends React.Component {
-  state = {};
+  state = {
+    
+      reads: []
+    
+  
+  };
+
+  componentDidMount() {
+    BOOKS.getAll().then((books) => {
+      this.setState({ reads: books })
+    }
+    )
+  }
+  changeShelf = (book, shelf) => {
+    BOOKS.update(book, shelf)
+
+  }
   render() {
     return (
       <div className="app">
@@ -216,7 +233,44 @@ class BooksApp extends React.Component {
   }
 }
 class BookSearch extends React.Component {
+  state = {
+    query: '',matchedBooks: []
+}
+
+handleChange = event => {
+  const value = event.target.value;
+  this.setState({ value: value });
+
+  if (value.length > 0) {
+    BOOKS.search(value).then(books => {
+      if (books.error) {
+        this.setState({ matchedBooks: [] });
+      } else {
+        this.setState({ matchedBooks: books });
+      }
+    }).catch(this.setState({ matchedBooks: [] }));
+  }else {
+    this.setState({ matchedBooks: [] });
+  }
+};
+
+resetSearch = () => {
+  this.setState({ matchedBooks: [] });
+}
+
   render() {
+    const { books, onChangeShelf } = this.props;
+    // add shelves that I've selected before, and add 'none' if I havn't selected them
+    this.state.matchedBooks.forEach(function(searchedBook){
+      books.forEach(function(book){
+        if (book.id === searchedBook.id) {
+          searchedBook.shelf = book.shelf;
+        }
+      });
+      if(!searchedBook.shelf){
+        searchedBook.shelf = 'none';
+      }
+    })
     return (
       <div className="search-books">
             <div className="search-books-bar">
@@ -229,13 +283,21 @@ class BookSearch extends React.Component {
 
                   However, remember that the BooksAPI.search method DOES search by title or author. So, don't worry if
                   you don't find a specific author or title. Every search is limited by search terms.
-                */}
-                <input type="text" placeholder="Search by title or author"/>
+                */
+                  
+                }
+                <input type="text" placeholder="Search by title or author"
+                value={this.state.value} onChange={this.handleChange}
+              />
 
               </div>
             </div>
             <div className="search-books-results">
-              <ol className="books-grid"></ol>
+              <ol className="books-grid">
+              {this.state.matchedBooks.map(book => (
+              <Book key={book.id} book={book} onChangeShelf={onChangeShelf} />
+            ))}
+              </ol>
             </div>
           </div>
       
