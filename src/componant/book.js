@@ -9,6 +9,7 @@ class Book extends React.Component {
   }
   render() {
   
+    const shelfbooks =this.props.Books;  
 
     return (
               <li>

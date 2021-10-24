@@ -22,7 +22,7 @@ class BookList extends Component {
     })
   } 
   render() {
-                /* */
+                /* <Shelf allBooks={this.state.books}/>*/
 
       return (
   
