@@ -1,33 +1,20 @@
 import React from 'react'
-// import * as BooksAPI from './BooksAPI'
+//import * as BooksAPI from './BooksAPI'
 import './App.css'
+import MainPage from './smallercomponant/mainPage'
+import SearchPage from './smallercomponant/searchPage'
 import { Route } from 'react-router-dom'
-import BookList from "./componant/bookList.js"
-import BookSearch from "./componant/BookSearch.js"
-import Book from './componant/book'
-import Shelf from './componant/shelf'
-
 class BooksApp extends React.Component {
- 
   
-  
-
-
-  render() 
-  {
-
+  render() {
     return (
-           <div className="app">
-        <Route exact path="/" component={BookList} />
-        <Route path="/search" component={BookSearch} />
-        
+      <div className="app">
+                 <Route exact path="/" component={MainPage} />
+                 <Route path="/search" component={SearchPage} />
+                 
       </div>
     )
   }
 }
-
-
-
-
 
 export default BooksApp
