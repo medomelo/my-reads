@@ -1,17 +1,36 @@
-import React from 'react'
-import { Link } from 'react-router-dom';
-
-class Book extends React.Component {
- 
+import {React,Component }from "react"
+import Book from "./book"
+import BookList from "./bookList";
+class Shelf extends Component {
   componentDidMount (){
     console.log(this)
 
   }
-  render() {
-  
-
-    return (
-              <li>
+    render() 
+    {
+      const allBooks= this.props.allBooks;
+      console.log('hayyyyyyyyy',allBooks);
+        return (
+            <div className="bookshelf">
+            <h2 className="bookshelf-title">{ this.props.name}</h2>
+            <div className="bookshelf-books">
+              <ol className="books-grid">
+                <Shelve/>
+                
+              </ol>
+            </div>
+          </div>
+          
+       
+      )
+    }
+  }
+//                  this.props.Books.map((book,key)=><Book book={book} key={key}/>)
+class Shelve extends Component{
+  render(){
+          return(
+            
+          <li>
                   <div className="book">
                     <div className="book-top">
                       <div className="book-cover" style={{ width: 128, height: 193, backgroundImage: 'url("http://books.google.com/books/content?id=PGR2AwAAQBAJ&printsec=frontcover&img=1&zoom=1&imgtk=AFLRE73-GnPVEyb7MOCxDzOYF1PTQRuf6nCss9LMNOSWBpxBrz8Pm2_mFtWMMg_Y1dx92HT7cUoQBeSWjs3oEztBVhUeDFQX6-tWlWz1-feexS0mlJPjotcwFqAg6hBYDXuK_bkyHD-y&source=gbs_api")' }}></div>
@@ -29,8 +48,10 @@ class Book extends React.Component {
                     <div className="book-authors">Harper Lee</div>
                   </div>
                 </li>
-    );
-  }
-}
+               
+        )
 
-export default Book
+    }
+}
+export default Shelf
+
