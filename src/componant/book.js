@@ -1,5 +1,6 @@
 import React from 'react'
-import BookControl from './bookcontol';
+import BookControl from "./bookcontol.js"
+
 class Book extends React.Component {
   render() {
     const { book, onChangeShelf } = this.props;
